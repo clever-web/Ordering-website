@@ -64,7 +64,7 @@ export default function LandingAdvertisement() {
                 '&:hover': { bgcolor: 'grey.300' }
               }}
             >
-              Purchase Now
+              SignUp112
             </Button>
           </MotionInView>
         </Box>

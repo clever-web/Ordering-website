@@ -81,6 +81,9 @@ export default function Router() {
 
 // IMPORT COMPONENTS
 
+// Authentication 
+const Login = Loadable(lazy(() => import('../pages/authentication/Login')));
+
 // Dashboard
 const PageOne = Loadable(lazy(() => import('../pages/PageOne')));
 const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));
