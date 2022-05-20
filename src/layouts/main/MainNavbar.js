@@ -80,7 +80,7 @@ export default function MainNavbar() {
             <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />
           </MHidden>
 
-          <Button variant="contained" target="_blank" to="/login">
+          <Button variant="contained" target="_blank" href="login-unprotected">
             Sign In
           </Button>
           <MHidden width="mdUp">

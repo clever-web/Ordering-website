@@ -6,6 +6,7 @@ import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // components
 import LoadingScreen from '../components/LoadingScreen';
+// import Login from 'src/pages/authentication/Login';
 
 // ----------------------------------------------------------------------
 
@@ -75,15 +76,15 @@ export default function Router() {
       element: <MainLayout />,
       children: [{ path: '/', element: <LandingPage /> }]
     },
-    { path: '*', element: <Navigate to="/404" replace /> }
+    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: 'login-unprotected', element: <Login /> }
   ]);
 }
 
 // IMPORT COMPONENTS
 
-// Authentication 
+// Authentication
 const Login = Loadable(lazy(() => import('../pages/authentication/Login')));
-
 // Dashboard
 const PageOne = Loadable(lazy(() => import('../pages/PageOne')));
 const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));
