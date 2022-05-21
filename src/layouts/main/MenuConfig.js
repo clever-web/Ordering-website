@@ -1,8 +1,7 @@
-import { Icon } from '@iconify/react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import fileFill from '@iconify/icons-eva/file-fill';
+// Path
+import Iconify from '../../components/Iconify';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_AUTH } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -13,11 +12,10 @@ const ICON_SIZE = {
 
 const menuConfig = [
   {
-    title: 'Home',
-    path: '/',
-    icon: <Icon icon={homeFill} {...ICON_SIZE} />
-  },
-  { title: 'Dashboard', path: PATH_DASHBOARD.root, icon: <Icon icon={fileFill} {...ICON_SIZE} /> }
+    title: 'Login',
+    icon: <Iconify icon="eva:home-fill" {...ICON_SIZE} />,
+    path: PATH_AUTH.login
+  }
 ];
 
 export default menuConfig;

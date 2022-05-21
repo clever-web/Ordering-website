@@ -77,7 +77,18 @@ export default function Router() {
       children: [{ path: '/', element: <LandingPage /> }]
     },
     { path: '*', element: <Navigate to="/404" replace /> },
-    { path: 'login-unprotected', element: <Login /> }
+    // Auth Routes
+    {
+      path: 'auth',
+      children: [
+        { path: 'login-unprotected', element: <Login /> },
+        { path: 'login', element: <Login /> },
+        { path: 'register-unprotected', element: <Register /> },
+        { path: 'register', element: <Register /> },
+        { path: 'reset-password', element: <ResetPassword /> }
+        // { path: 'verify', element: <VerifyCode /> }
+      ]
+    }
   ]);
 }
 
@@ -85,6 +96,9 @@ export default function Router() {
 
 // Authentication
 const Login = Loadable(lazy(() => import('../pages/authentication/Login')));
+const Register = Loadable(lazy(() => import('../pages/authentication/Register')));
+const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetPassword')));
+// const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
 // Dashboard
 const PageOne = Loadable(lazy(() => import('../pages/PageOne')));
 const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));

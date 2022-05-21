@@ -37,8 +37,8 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.15.0",
     "@emotion/cache": "^11.4.0",
-    "@emotion/react": "^11.4.0",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
     "@fullcalendar/daygrid": "^5.8.0",
     "@fullcalendar/interaction": "^5.8.0",
     "@fullcalendar/list": "^5.8.0",
@@ -55,6 +55,7 @@
     "@material-ui/lab": "^5.0.0-alpha.34",
     "@material-ui/styles": "^5.0.0-alpha.33",
     "@material-ui/utils": "^5.0.0-alpha.33",
+    "@mui/material": "^5.8.0",
     "@react-pdf/renderer": "^2.0.15",
     "@reduxjs/toolkit": "^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",

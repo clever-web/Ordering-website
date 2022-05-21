@@ -72,7 +72,7 @@ export default function LoginForm() {
     }
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit } = formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -89,7 +89,6 @@ export default function LoginForm() {
             autoComplete="username"
             type="email"
             label="Email address"
-            {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
@@ -99,7 +98,6 @@ export default function LoginForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
-            {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -115,10 +113,7 @@ export default function LoginForm() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
+          <FormControlLabel control={<Checkbox checked={values.remember} />} label="Remember me" />
 
           <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.resetPassword}>
             Forgot password?
