@@ -21,11 +21,11 @@ export default function Logo({ disabledLink = false, sx, isloading, iscollapse }
   const logo =
     isloading || iscollapse ? (
       <Box sx={{ width: 50, height: 50, ...sx }}>
-        <Image src="static/logo/logo_single.svg" />
+        <Image src="/static/logo/logo_single.svg" />
       </Box>
     ) : (
       <Box sx={{ width: 220, height: 60, ...sx }}>
-        <Image src="static/logo/logo_full.svg" />
+        <Image src="/static/logo/logo_full.svg" />
       </Box>
     );
 
