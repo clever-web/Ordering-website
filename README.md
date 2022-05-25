@@ -40,3 +40,7 @@ Your app is ready to be deployed.
 ## User Guide
 
 You can find detailed instructions on using Create React App and many tips in [its documentation](https://facebook.github.io/create-react-app/).
+
+Not completed because the client don't want to continue.
+What I do is intalling the minimal theme.
+I will do this in the future.
