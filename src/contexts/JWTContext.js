@@ -1,5 +1,5 @@
-import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import { createContext, useEffect, useReducer } from 'react';
 // utils
 import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
@@ -9,7 +9,7 @@ import { isValidToken, setSession } from '../utils/jwt';
 const initialState = {
   isAuthenticated: false,
   isInitialized: false,
-  user: null
+  user: null,
 };
 
 const handlers = {
@@ -19,7 +19,7 @@ const handlers = {
       ...state,
       isAuthenticated,
       isInitialized: true,
-      user
+      user,
     };
   },
   LOGIN: (state, action) => {
@@ -28,13 +28,13 @@ const handlers = {
     return {
       ...state,
       isAuthenticated: true,
-      user
+      user,
     };
   },
   LOGOUT: (state) => ({
     ...state,
     isAuthenticated: false,
-    user: null
+    user: null,
   }),
   REGISTER: (state, action) => {
     const { user } = action.payload;
@@ -42,9 +42,9 @@ const handlers = {
     return {
       ...state,
       isAuthenticated: true,
-      user
+      user,
     };
-  }
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -54,11 +54,13 @@ const AuthContext = createContext({
   method: 'jwt',
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
-  register: () => Promise.resolve()
+  register: () => Promise.resolve(),
 });
 
+// ----------------------------------------------------------------------
+
 AuthProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 function AuthProvider({ children }) {
@@ -67,7 +69,7 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem('accessToken');
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
@@ -79,16 +81,16 @@ function AuthProvider({ children }) {
             type: 'INITIALIZE',
             payload: {
               isAuthenticated: true,
-              user
-            }
+              user,
+            },
           });
         } else {
           dispatch({
             type: 'INITIALIZE',
             payload: {
               isAuthenticated: false,
-              user: null
-            }
+              user: null,
+            },
           });
         }
       } catch (err) {
@@ -97,8 +99,8 @@ function AuthProvider({ children }) {
           type: 'INITIALIZE',
           payload: {
             isAuthenticated: false,
-            user: null
-          }
+            user: null,
+          },
         });
       }
     };
@@ -109,16 +111,17 @@ function AuthProvider({ children }) {
   const login = async (email, password) => {
     const response = await axios.post('/api/account/login', {
       email,
-      password
+      password,
     });
     const { accessToken, user } = response.data;
 
     setSession(accessToken);
+
     dispatch({
       type: 'LOGIN',
       payload: {
-        user
-      }
+        user,
+      },
     });
   };
 
@@ -127,16 +130,17 @@ function AuthProvider({ children }) {
       email,
       password,
       firstName,
-      lastName
+      lastName,
     });
     const { accessToken, user } = response.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('accessToken', accessToken);
+
     dispatch({
       type: 'REGISTER',
       payload: {
-        user
-      }
+        user,
+      },
     });
   };
 
@@ -144,10 +148,6 @@ function AuthProvider({ children }) {
     setSession(null);
     dispatch({ type: 'LOGOUT' });
   };
-
-  const resetPassword = () => {};
-
-  const updateProfile = () => {};
 
   return (
     <AuthContext.Provider
@@ -157,8 +157,6 @@ function AuthProvider({ children }) {
         login,
         logout,
         register,
-        resetPassword,
-        updateProfile
       }}
     >
       {children}

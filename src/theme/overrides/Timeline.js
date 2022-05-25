@@ -5,17 +5,17 @@ export default function Timeline(theme) {
     MuiTimelineDot: {
       styleOverrides: {
         root: {
-          boxShadow: 'none'
-        }
-      }
+          boxShadow: 'none',
+        },
+      },
     },
 
     MuiTimelineConnector: {
       styleOverrides: {
         root: {
-          backgroundColor: theme.palette.divider
-        }
-      }
-    }
+          backgroundColor: theme.palette.divider,
+        },
+      },
+    },
   };
 }

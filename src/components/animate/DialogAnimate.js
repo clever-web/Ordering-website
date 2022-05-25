@@ -1,20 +1,21 @@
 import PropTypes from 'prop-types';
-import { motion, AnimatePresence } from 'framer-motion';
-// material
-import { Dialog } from '@material-ui/core';
+import { m, AnimatePresence } from 'framer-motion';
+// @mui
+import { Dialog, Box, Paper } from '@mui/material';
 //
-import { varFadeInUp } from './variants';
+import { varFade } from './variants';
 
 // ----------------------------------------------------------------------
 
 DialogAnimate.propTypes = {
-  open: PropTypes.bool.isRequired,
-  animate: PropTypes.object,
+  children: PropTypes.node.isRequired,
   onClose: PropTypes.func,
-  children: PropTypes.node.isRequired
+  open: PropTypes.bool.isRequired,
+  sx: PropTypes.object,
+  variants: PropTypes.object
 };
 
-export default function DialogAnimate({ open = false, animate, onClose, children, ...other }) {
+export default function DialogAnimate({ open = false, variants, onClose, children, sx, ...other }) {
   return (
     <AnimatePresence>
       {open && (
@@ -23,14 +24,30 @@ export default function DialogAnimate({ open = false, animate, onClose, children
           maxWidth="xs"
           open={open}
           onClose={onClose}
-          PaperComponent={motion.div}
-          PaperProps={{
-            sx: {
-              borderRadius: 2,
-              bgcolor: 'background.paper'
-            },
-            ...(animate || varFadeInUp)
-          }}
+          PaperComponent={(props) => (
+            <Box
+              component={m.div}
+              {...(variants ||
+                varFade({
+                  distance: 120,
+                  durationIn: 0.32,
+                  durationOut: 0.24,
+                  easeIn: 'easeInOut'
+                }).inUp)}
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Box onClick={onClose} sx={{ width: '100%', height: '100%', position: 'fixed' }} />
+              <Paper sx={sx} {...props}>
+                {props.children}
+              </Paper>
+            </Box>
+          )}
           {...other}
         >
           {children}

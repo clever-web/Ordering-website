@@ -1,28 +1,30 @@
 // routes
 import Router from './routes';
 // theme
-import ThemeConfig from './theme';
+import ThemeProvider from './theme';
 // components
-import Settings from './components/settings';
-import RtlLayout from './components/RtlLayout';
+import ThemeSettings from './components/settings';
+import { ChartStyle } from './components/chart';
 import ScrollToTop from './components/ScrollToTop';
+import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
-import ThemePrimaryColor from './components/ThemePrimaryColor';
+import MotionLazyContainer from './components/animate/MotionLazyContainer';
 
 // ----------------------------------------------------------------------
 
 export default function App() {
   return (
-    <ThemeConfig>
-      <ThemePrimaryColor>
-        <RtlLayout>
+    <MotionLazyContainer>
+      <ThemeProvider>
+        <ThemeSettings>
           <NotistackProvider>
-            <Settings />
+            <ProgressBarStyle />
+            <ChartStyle />
             <ScrollToTop />
             <Router />
           </NotistackProvider>
-        </RtlLayout>
-      </ThemePrimaryColor>
-    </ThemeConfig>
+        </ThemeSettings>
+      </ThemeProvider>
+    </MotionLazyContainer>
   );
 }

@@ -1,143 +1,171 @@
 import PropTypes from 'prop-types';
-import React, { createContext } from 'react';
+import { useEffect, createContext } from 'react';
 // hooks
 import useLocalStorage from '../hooks/useLocalStorage';
-// theme
-import palette from '../theme/palette';
+// utils
+import getColorPresets, { colorPresets, defaultPreset } from '../utils/getColorPresets';
+// config
+import { defaultSettings } from '../config';
 
 // ----------------------------------------------------------------------
 
-const PRIMARY_COLOR = [
-  // DEFAULT
-  {
-    name: 'default',
-    ...palette.light.primary
-  },
-  // PURPLE
-  {
-    name: 'purple',
-    lighter: '#EBD6FD',
-    light: '#B985F4',
-    main: '#7635dc',
-    dark: '#431A9E',
-    darker: '#200A69',
-    contrastText: '#fff'
-  },
-  // CYAN
-  {
-    name: 'Cyan',
-    lighter: '#D1FFFC',
-    light: '#76F2FF',
-    main: '#1CCAFF',
-    dark: '#0E77B7',
-    darker: '#053D7A',
-    contrastText: palette.light.grey[800]
-  },
-  // BLUE
-  {
-    name: 'blue',
-    lighter: '#CCDFFF',
-    light: '#6697FF',
-    main: '#0045FF',
-    dark: '#0027B7',
-    darker: '#00137A',
-    contrastText: '#fff'
-  },
-  // ORANGE
-  {
-    name: 'orange',
-    lighter: '#FEF4D4',
-    light: '#FED680',
-    main: '#fda92d',
-    dark: '#B66816',
-    darker: '#793908',
-    contrastText: palette.light.grey[800]
-  },
-  // RED
-  {
-    name: 'red',
-    lighter: '#FFE3D5',
-    light: '#FFC1AC',
-    main: '#FF3030',
-    dark: '#B71833',
-    darker: '#7A0930',
-    contrastText: '#fff'
-  }
-];
-
-function SetColor(themeColor) {
-  let color;
-  const DEFAULT = PRIMARY_COLOR[0];
-  const PURPLE = PRIMARY_COLOR[1];
-  const CYAN = PRIMARY_COLOR[2];
-  const BLUE = PRIMARY_COLOR[3];
-  const ORANGE = PRIMARY_COLOR[4];
-  const RED = PRIMARY_COLOR[5];
-
-  switch (themeColor) {
-    case 'purple':
-      color = PURPLE;
-      break;
-    case 'Cyan':
-      color = CYAN;
-      break;
-    case 'blue':
-      color = BLUE;
-      break;
-    case 'orange':
-      color = ORANGE;
-      break;
-    case 'red':
-      color = RED;
-      break;
-    default:
-      color = DEFAULT;
-  }
-  return color;
-}
-
 const initialState = {
-  themeMode: 'light',
-  themeDirection: 'ltr',
-  themeColor: 'default',
+  ...defaultSettings,
+  // Mode
+  onToggleMode: () => {},
   onChangeMode: () => {},
+
+  // Direction
+  onToggleDirection: () => {},
   onChangeDirection: () => {},
+  onChangeDirectionByLang: () => {},
+
+  // Layout
+  onToggleLayout: () => {},
+  onChangeLayout: () => {},
+
+  // Contrast
+  onToggleContrast: () => {},
+  onChangeContrast: () => {},
+
+  // Color
   onChangeColor: () => {},
-  setColor: PRIMARY_COLOR[0],
-  colorOption: []
+  setColor: defaultPreset,
+  colorOption: [],
+
+  // Stretch
+  onToggleStretch: () => {},
+
+  // Reset
+  onResetSetting: () => {},
 };
 
 const SettingsContext = createContext(initialState);
 
+// ----------------------------------------------------------------------
+
 SettingsProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 function SettingsProvider({ children }) {
   const [settings, setSettings] = useLocalStorage('settings', {
-    themeMode: 'light',
-    themeDirection: 'ltr',
-    themeColor: 'default'
+    themeMode: initialState.themeMode,
+    themeLayout: initialState.themeLayout,
+    themeStretch: initialState.themeStretch,
+    themeContrast: initialState.themeContrast,
+    themeDirection: initialState.themeDirection,
+    themeColorPresets: initialState.themeColorPresets,
   });
+
+  const isArabic = localStorage.getItem('i18nextLng') === 'ar';
+
+  useEffect(() => {
+    if (isArabic) {
+      onChangeDirectionByLang('ar');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isArabic]);
+
+  // Mode
+
+  const onToggleMode = () => {
+    setSettings({
+      ...settings,
+      themeMode: settings.themeMode === 'light' ? 'dark' : 'light',
+    });
+  };
 
   const onChangeMode = (event) => {
     setSettings({
       ...settings,
-      themeMode: event.target.value
+      themeMode: event.target.value,
+    });
+  };
+
+  // Direction
+
+  const onToggleDirection = () => {
+    setSettings({
+      ...settings,
+      themeDirection: settings.themeDirection === 'rtl' ? 'ltr' : 'rtl',
     });
   };
 
   const onChangeDirection = (event) => {
     setSettings({
       ...settings,
-      themeDirection: event.target.value
+      themeDirection: event.target.value,
     });
   };
+
+  const onChangeDirectionByLang = (lang) => {
+    setSettings({
+      ...settings,
+      themeDirection: lang === 'ar' ? 'rtl' : 'ltr',
+    });
+  };
+
+  // Layout
+
+  const onToggleLayout = () => {
+    setSettings({
+      ...settings,
+      themeLayout: settings.themeLayout === 'vertical' ? 'horizontal' : 'vertical',
+    });
+  };
+
+  const onChangeLayout = (event) => {
+    setSettings({
+      ...settings,
+      themeLayout: event.target.value,
+    });
+  };
+
+  // Contrast
+
+  const onToggleContrast = () => {
+    setSettings({
+      ...settings,
+      themeContrast: settings.themeContrast === 'default' ? 'bold' : 'default',
+    });
+  };
+
+  const onChangeContrast = (event) => {
+    setSettings({
+      ...settings,
+      themeContrast: event.target.value,
+    });
+  };
+
+  // Color
 
   const onChangeColor = (event) => {
     setSettings({
       ...settings,
-      themeColor: event.target.value
+      themeColorPresets: event.target.value,
+    });
+  };
+
+  // Stretch
+
+  const onToggleStretch = () => {
+    setSettings({
+      ...settings,
+      themeStretch: !settings.themeStretch,
+    });
+  };
+
+  // Reset
+
+  const onResetSetting = () => {
+    setSettings({
+      themeMode: initialState.themeMode,
+      themeLayout: initialState.themeLayout,
+      themeStretch: initialState.themeStretch,
+      themeContrast: initialState.themeContrast,
+      themeDirection: initialState.themeDirection,
+      themeColorPresets: initialState.themeColorPresets,
     });
   };
 
@@ -145,17 +173,37 @@ function SettingsProvider({ children }) {
     <SettingsContext.Provider
       value={{
         ...settings,
+
         // Mode
+        onToggleMode,
         onChangeMode,
+
         // Direction
+        onToggleDirection,
         onChangeDirection,
+        onChangeDirectionByLang,
+
+        // Layout
+        onToggleLayout,
+        onChangeLayout,
+
+        // Contrast
+        onChangeContrast,
+        onToggleContrast,
+
+        // Stretch
+        onToggleStretch,
+
         // Color
         onChangeColor,
-        setColor: SetColor(settings.themeColor),
-        colorOption: PRIMARY_COLOR.map((color) => ({
+        setColor: getColorPresets(settings.themeColorPresets),
+        colorOption: colorPresets.map((color) => ({
           name: color.name,
-          value: color.main
-        }))
+          value: color.main,
+        })),
+
+        // Reset
+        onResetSetting,
       }}
     >
       {children}

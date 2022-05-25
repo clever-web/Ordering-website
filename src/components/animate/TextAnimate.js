@@ -1,22 +1,22 @@
-import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-// material
-import { Typography } from '@material-ui/core';
+import { m } from 'framer-motion';
+// @mui
+import { Box } from '@mui/material';
 //
-import { varFadeInUp } from './variants';
+import { varFade } from './variants';
 
 // ----------------------------------------------------------------------
 
 TextAnimate.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string.isRequired,
   variants: PropTypes.object,
   sx: PropTypes.object
 };
 
 export default function TextAnimate({ text, variants, sx, ...other }) {
   return (
-    <Typography
-      component={motion.h1}
+    <Box
+      component={m.h1}
       sx={{
         typography: 'h1',
         overflow: 'hidden',
@@ -26,10 +26,10 @@ export default function TextAnimate({ text, variants, sx, ...other }) {
       {...other}
     >
       {text.split('').map((letter, index) => (
-        <motion.span key={index} variants={variants || varFadeInUp}>
+        <m.span key={index} variants={variants || varFade().inUp}>
           {letter}
-        </motion.span>
+        </m.span>
       ))}
-    </Typography>
+    </Box>
   );
 }

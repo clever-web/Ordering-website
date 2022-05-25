@@ -5,23 +5,23 @@ export default function ControlLabel(theme) {
     MuiFormControlLabel: {
       styleOverrides: {
         label: {
-          ...theme.typography.body2
-        }
-      }
+          ...theme.typography.body2,
+        },
+      },
     },
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          marginTop: theme.spacing(1)
-        }
-      }
+          marginTop: theme.spacing(1),
+        },
+      },
     },
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          color: theme.palette.text.disabled
-        }
-      }
-    }
+          color: theme.palette.text.disabled,
+        },
+      },
+    },
   };
 }
